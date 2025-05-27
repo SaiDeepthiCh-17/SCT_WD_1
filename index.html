@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast Food Delights</title>
+    <style>
+        /* Animated Food Background */
+
+        @keyframes floatBurger {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate(15px, 15px) rotate(5deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+        }
+
+        @keyframes floatPizza {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate(-20px, 10px) rotate(-5deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+        }
+
+        @keyframes floatFries {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate(10px, -15px) rotate(3deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+        }
+
+        /* Reset and Base Styles */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navigation Styles */
+
+        nav {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background-color: #ff6b81;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff6b81;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav.scrolled .logo {
+            color: #fff;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b81;
+        }
+
+        nav.scrolled .nav-links a {
+            color: #fff;
+        }
+
+        nav.scrolled .nav-links a:hover {
+            color: #f5f5f5;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: #ff6b81;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s;
+        }
+
+        nav.scrolled .nav-links a::after {
+            background-color: #fff;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            display: none;
+            cursor: pointer;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: #333;
+            margin: 5px 0;
+            transition: 0.4s;
+        }
+
+        nav.scrolled .bar {
+            background-color: #fff;
+        }
+
+        /* Hero Section */
+
+        .hero {
+            background-image: url('https://cdn.pixabay.com/photo/2021/03/19/21/52/burger-6108495_1280.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            color: white;
+            padding: 10rem 5% 5rem;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 0;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 1.2s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #ff6b81;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            animation: bounce 1.5s infinite alternate;
+        }
+
+        .cta-button:hover {
+            background-color: #ff4757;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 129, 0.4);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-8px);
+            }
+        }
+
+        /* Categories Section */
+
+        .categories {
+            padding: 5rem 5%;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background-color: #ff6b81;
+            bottom: -10px;
+            left: 25%;
+        }
+
+        .category-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .category-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from {
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            }
+            to {
+                box-shadow: 0 15px 30px rgba(255, 107, 129, 0.3);
+            }
+        }
+
+        .category-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .category-info {
+            padding: 1.5rem;
+        }
+
+        .category-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .category-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        /* Popular Items Section */
+
+        .popular-items {
+            background-color: white;
+            padding: 5rem 5%;
+            text-align: center;
+        }
+
+        .items-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .item-card {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px) scale(1.03);
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            20% {
+                transform: translateX(-5px);
+            }
+            40% {
+                transform: translateX(5px);
+            }
+            60% {
+                transform: translateX(-3px);
+            }
+            80% {
+                transform: translateX(3px);
+            }
+        }
+
+        .item-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .item-info {
+            padding: 1.5rem;
+            text-align: left;
+        }
+
+        .item-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-info .price {
+            color: #ff6b81;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .item-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .order-button {
+            display: inline-block;
+            background-color: #ff6b81;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .order-button:hover {
+            background-color: #ff4757;
+        }
+
+        /* About Section */
+
+        .about {
+            padding: 5rem 5%;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-section {
+            flex: 1 1 300px;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            background-color: #ff6b81;
+            bottom: 0;
+            left: 0;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #ff6b81;
+        }
+
+        .social-links {
+            display: flex;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: #444;
+            color: white;
+            border-radius: 50%;
+            margin-right: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: #ff6b81;
+        }
+
+        .copyright {
+            width: 100%;
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #444;
+        }
+
+        /* Responsive Styles */
+
+        @media (max-width: 992px) {
+            .nav-links {
+                position: fixed;
+                background-color: white;
+                height: 100vh;
+                width: 100%;
+                top: 0;
+                right: -100%;
+                text-align: center;
+                padding: 2rem;
+                flex-direction: column;
+                transition: 0.5s;
+                z-index: 1;
+            }
+            nav.scrolled .nav-links {
+                background-color: #ff6b81;
+            }
+            .nav-links.active {
+                right: 0;
+            }
+            .nav-links li {
+                margin: 1.5rem 0;
+            }
+            .mobile-menu {
+                display: block;
+                z-index: 2;
+            }
+            .mobile-menu.active .bar:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+            .mobile-menu.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+            .mobile-menu.active .bar:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .category-container,
+            .items-container {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 8rem 5% 3rem;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .section-title {
+                font-size: 1.6rem;
+            }
+            .category-container,
+            .items-container {
+                grid-template-columns: 1fr;
+            }
+            .footer-section {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav id="mainNav">
+        <div class="nav-container">
+            <a href="#" class="logo">FastFoodDelights</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#categories">Categories</a></li>
+                <li><a href="#popular">Popular Items</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="floating-food burger" style="position: absolute; top: 15%; left: 5%; animation: floatBurger 8s infinite ease-in-out; z-index: 1;">
+            <img src="https://cdn.pixabay.com/photo/2022/08/31/10/18/hamburger-7422976_1280.jpg" alt="Floating burger" style="width: 100px; height: 100px; border-radius: 50%; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+        </div>
+        <div class="floating-food pizza" style="position: absolute; top: 60%; right: 10%; animation: floatPizza 7s infinite ease-in-out; z-index: 1;">
+            <img src="https://cdn.pixabay.com/photo/2016/04/09/09/22/pizza-1317699_1280.jpg" alt="Floating pizza" style="width: 120px; height: 120px; border-radius: 50%; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+        </div>
+        <div class="floating-food fries" style="position: absolute; bottom: 20%; left: 15%; animation: floatFries 6s infinite ease-in-out; z-index: 1;">
+            <img src="https://cdn.pixabay.com/photo/2017/08/14/14/56/crisp-2640743_1280.jpg" alt="Floating fries" style="width: 90px; height: 90px; border-radius: 50%; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+        </div>
+        <h1>Delicious Fast Food Delivered Fast</h1>
+        <p>Experience the ultimate fast food journey with our variety of mouthwatering burgers, pizzas, and more. Fresh ingredients, amazing taste!</p>
+        <a href="#popular" class="cta-button">Order Now</a>
+    </section>
+
+    <section class="categories" id="categories">
+        <h2 class="section-title">Food Categories</h2>
+        <div class="category-container">
+            <div class="category-card">
+                <img src="https://cdn.pixabay.com/photo/2022/08/31/10/18/hamburger-7422976_1280.jpg" alt="Burgers" class="category-img">
+                <div class="category-info">
+                    <h3>BURGERS</h3>
+                    <p>Juicy beef patties with fresh toppings and special sauces</p>
+                    <a href="#" class="order-button">View All</a>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="https://cdn.pixabay.com/photo/2017/12/10/14/47/pizza-3010062_1280.jpg" alt="Pizzas" class="category-img">
+                <div class="category-info">
+                    <h3>PIZZAS</h3>
+                    <p>Hand-tossed pizzas with premium toppings and melted cheese</p>
+                    <a href="#" class="order-button">View All</a>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="https://cdn.pixabay.com/photo/2017/08/14/14/56/crisp-2640743_1280.jpg" alt="Fries" class="category-img">
+                <div class="category-info">
+                    <h3>FRIES & SIDES</h3>
+                    <p>Crispy fries and delicious sides to complement your meal</p>
+                    <a href="#" class="order-button">View All</a>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="https://cdn.pixabay.com/photo/2022/05/22/15/02/pizza-7213599_1280.jpg" alt="Combos" class="category-img">
+                <div class="category-info">
+                    <h3>COMBO MEALS</h3>
+                    <p>Value meals with your favorite foods at great prices</p>
+                    <a href="#" class="order-button">View All</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="popular-items" id="popular">
+        <h2 class="section-title">Popular Items</h2>
+        <div class="items-container">
+            <div class="item-card">
+                <img src="https://cdn.pixabay.com/photo/2021/11/21/11/24/fast-food-6813785_1280.jpg" alt="Double Cheeseburger" class="item-img">
+                <div class="item-info">
+                    <h3>Double Cheeseburger</h3>
+                    <p>Two juicy beef patties, double cheese, lettuce, tomato and our secret sauce</p>
+                    <div class="price">₹747</div>
+                    <a href="#" class="order-button">Order Now</a>
+                </div>
+            </div>
+            <div class="item-card">
+                <img src="https://cdn.pixabay.com/photo/2016/04/09/09/22/pizza-1317699_1280.jpg" alt="Supreme Pizza" class="item-img">
+                <div class="item-info">
+                    <h3>Supreme Pizza</h3>
+                    <p>Loaded with pepperoni, sausage, bell peppers, onions, and extra cheese</p>
+                    <div class="price">₹780</div>
+                    <a href="#" class="order-button">Order Now</a>
+                </div>
+            </div>
+            <div class="item-card">
+                <img src="https://cdn.pixabay.com/photo/2018/05/30/19/18/burger-3442227_1280.jpg" alt="Bacon Deluxe Burger" class="item-img">
+                <div class="item-info">
+                    <h3>Bacon Deluxe Burger</h3>
+                    <p>Premium beef patty with crispy bacon, cheddar cheese and BBQ sauce</p>
+                    <div class="price">₹830</div>
+                    <a href="#" class="order-button">Order Now</a>
+                </div>
+            </div>
+            <div class="item-card">
+                <img src="https://cdn.pixabay.com/photo/2022/07/23/21/51/pizza-7340648_1280.jpg" alt="Veggie Pizza" class="item-img">
+                <div class="item-info">
+                    <h3>Veggie Delight Pizza</h3>
+                    <p>Fresh vegetables, mushrooms, and mozzarella on our signature sauce</p>
+                    <div class="price">₹996</div>
+                    <a href="#" class="order-button">Order Now</a>
+                </div>
+            </div>
+            <div class="item-card">
+                <img src="https://cdn.pixabay.com/photo/2021/03/19/21/52/burger-6108495_1280.jpg" alt="Crispy Chicken Burger" class="item-img">
+                <div class="item-info">
+                    <h3>Crispy Chicken Burger</h3>
+                    <p>Crispy fried chicken fillet with lettuce, mayo and pickles</p>
+                    <div class="price">	₹664</div>
+                    <a href="#" class="order-button">Order Now</a>
+                </div>
+            </div>
+            <div class="item-card">
+                <img src="https://cdn.pixabay.com/photo/2021/12/13/17/59/fast-food-6868812_1280.jpg" alt="Loaded Fries" class="item-img">
+                <div class="item-info">
+                    <h3>Loaded Fries</h3>
+                    <p>Crispy fries topped with melted cheese, bacon bits and sour cream</p>
+                    <div class="price">	₹498</div>
+                    <a href="#" class="order-button">Order Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <h2 class="section-title">About Us</h2>
+        <div class="about-content">
+            <p>Fast Food Delights was founded with a simple mission: to serve delicious fast food made with quality ingredients. We take pride in our fresh produce, premium meats, and house-made sauces.</p>
+            <p>Our chefs are passionate about creating mouthwatering burgers, pizzas, and sides that keep our customers coming back for more. We're committed to friendly service and a welcoming atmosphere in all our locations.</p>
+            <a href="#" class="cta-button">Learn More</a>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Fast Food Delights</h3>
+                <p>Serving delicious fast food with quality ingredients since 2025.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook">f</i></a>
+                    <a href="#"><i class="fab fa-twitter">t</i></a>
+                    <a href="#"><i class="fab fa-instagram">i</i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#categories">Menu</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                    <li>Phone: (123) 456-7890</li>
+                    <li>Email: info@fastfooddelights.com</li>
+                    <li>Address: 123 Food Street, Foodville, Guntur</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Fast Food Delights. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Change nav style on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+
+</html>
