@@ -1,6 +1,6 @@
 # 🌐 Responsive Landing Page – SkillCart Internship Task 1
 
-This is the first task completed as part of my internship with *SkillCart Technology. The goal was to design a fully responsive **Landing Page* with an interactive navigation bar.
+This is the first task completed as part of my internship with **SkillCart Technology**. The goal was to design a fully responsive **Landing Page** with an interactive navigation bar.
 
 ## 📌 Task Requirements
 
