@@ -29,6 +29,7 @@ This is the first task completed as part of my internship with **SkillCart Techn
 
 ## 🗂 Project Structure
 SCT_WD_1/
+
 └──index.html
 
 ## 📚 What I Learned
